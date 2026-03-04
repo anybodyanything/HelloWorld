@@ -63,4 +63,4 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/helloworld-${{ needs.Build-And-Push-Image.outputs.image-tag }} .
+          docker push -a ghcr.io/${{ github.repository_owner }}/helloworld-${{ needs.Build-And-Push-Image.outputs.image-tag }} .
