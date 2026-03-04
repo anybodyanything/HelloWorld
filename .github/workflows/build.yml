@@ -6,6 +6,7 @@ on:
 jobs:
   Build-And-Push-Image:
     runs-on: ubuntu-latest
+    outputs: ${{ steps.tagSetup.outputs.tag }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v5
