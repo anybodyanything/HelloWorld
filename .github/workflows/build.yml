@@ -17,7 +17,7 @@ jobs:
           if [ "$branch" = "main" ]; then
             echo "tag=latest" >> $GITHUB_OUTPUT
           else
-            echo "tag=${branch} >> $GITHUB_OUTPUT
+            echo "tag=${branch}" >> $GITHUB_OUTPUT
           fi
 
       - name: Set up Java
