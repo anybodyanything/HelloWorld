@@ -41,6 +41,9 @@ jobs:
     needs: Build-And-Push-Image
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
       - name: Login to GitHub Registry
         uses: docker/login-action@v3
         with:
