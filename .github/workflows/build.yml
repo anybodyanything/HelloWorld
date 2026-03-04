@@ -1,0 +1,66 @@
+name: Build and push image
+run-name: Package and push image
+on:
+  - push
+  - workflow_dispatch
+jobs:
+  Build-And-Push-Image:
+    runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{ steps.tagSetup.outputs.tag }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Set image tag
+        id: tagSetup
+        run: |
+          branch=${GITHUB_REF##*/}
+          if [ "$branch" = "main" ]; then
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${branch}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn clean package
+
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: helloWorld-jar
+          path: target/*.jar
+
+  Build-And-Push-Docker-Image:
+    needs: Build-And-Push-Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Login to GitHub Registry
+        uses: docker/login-action@v3
+        with:
+           registry: ghcr.io
+           username: ${{ github.actor }}
+           password: ${{ secrets.PACKAGES_TOKEN }}
+
+      - name: Download .jar
+        uses: actions/download-artifact@v4
+        with:
+          name: helloWorld-jar
+          path: target
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/helloworld-${{ needs.Build-And-Push-Image.outputs.image-tag }} .
+
+      - name: Push Docker Image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/helloworld-${{ needs.Build-And-Push-Image.outputs.image-tag }}
