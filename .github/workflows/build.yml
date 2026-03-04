@@ -13,7 +13,8 @@ jobs:
       - name: Set image tag
         id: tagSetup
         run: |
-          if [ "$GITHUB_REF##*/" = "main" ]; then
+          branch=${{ GITHUB_REF##*/ }}
+          if [ "$branch" = "main" ]; then
             echo "tag=latest" >> $GITHUB_OUTPUT
           else
             echo "tag=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
