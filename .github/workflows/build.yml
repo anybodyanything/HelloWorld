@@ -2,7 +2,7 @@ name: Build and push image
 run-name: ${{ github.actor }} to package and push image
 on:
   - push
-  - worflow dispatch
+  - workflow dispatch
 jobs:
   Build-And-Push-Image:
     runs-on: ubuntu-latest
