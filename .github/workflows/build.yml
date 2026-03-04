@@ -10,6 +10,16 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v5
 
+      - name: Set image tag
+        id: tagSetup
+        run: |
+          branch=${GITHUB_REF##*/}
+          if [ "$branch" = "main" ]; then
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${branch}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -26,6 +36,7 @@ jobs:
           path: target/*.jar
 
   Build-And-Push-Docker-Image:
+    needs: Build-And-Push-Image
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Registry
@@ -34,16 +45,6 @@ jobs:
            registry: ghcr.io
            username: ${{ github.actor }}
            password: ${{ secrets.PACKAGES_TOKEN }}
-
-      - name: Set image tag
-        id: tagSetup
-        run: |
-          branch=${GITHUB_REF##*/}
-          if [ "$branch" = "main" ]; then
-            echo "tag=latest" >> $GITHUB_OUTPUT
-          else
-            echo "tag=${branch}" >> $GITHUB_OUTPUT
-          fi
 
       - name: Build Docker Image
         run: |
