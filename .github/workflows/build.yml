@@ -52,7 +52,7 @@ jobs:
            password: ${{ secrets.PACKAGES_TOKEN }}
 
       - name: Download .jar
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: helloWorld-jar
           path: target
