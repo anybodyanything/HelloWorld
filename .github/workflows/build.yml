@@ -10,6 +10,15 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v5
 
+      - name: Set image tag
+        id: tagSetup
+        run: |
+          if [ "$GITHUB_REF##*/" = "main" ]; then
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
@@ -25,7 +34,7 @@ jobs:
           name: helloWorld-jar
           path: target/*.jar
 
-  Login-To-GitHub-Container-Registry:
+  Build-And-Push-Docker-Image:
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Registry
@@ -34,3 +43,11 @@ jobs:
            registry: ghcr.io
            username: ${{ github.actor }}
            password: ${{ secrets.PACKAGES_TOKEN }}
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/helloworld:${{ steps.tagSetup.outputs.tag }} .
+
+      - name: Push Docker Image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/helloworld:${{ steps.tagSetup.outputs.tag }} .
