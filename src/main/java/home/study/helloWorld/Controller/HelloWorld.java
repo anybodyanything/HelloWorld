@@ -1,4 +1,4 @@
-package home.study.helloWorld.HelloWorld;
+package home.study.helloWorld.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
