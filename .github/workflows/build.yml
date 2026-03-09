@@ -1,10 +1,15 @@
 name: Build and push image
 run-name: Package and push image
 on:
-  - push
-  - workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      push_image:
+        description: 'Push image to packages'
+        default: false
+        type: boolean
+
 jobs:
-  Build-And-Push-Image:
+  Build:
     runs-on: ubuntu-latest
     outputs:
       image-tag: ${{ steps.tagSetup.outputs.tag }}
@@ -37,8 +42,9 @@ jobs:
           name: helloWorld-jar
           path: target/*.jar
 
-  Build-And-Push-Docker-Image:
-    needs: Build-And-Push-Image
+  Push:
+    if: ${{ inputs.push_image }} == true
+    needs: Build
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
