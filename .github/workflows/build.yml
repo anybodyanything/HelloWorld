@@ -9,7 +9,7 @@ on:
         type: boolean
 
 jobs:
-  Build-And-Push-Image:
+  Build:
     runs-on: ubuntu-latest
     outputs:
       image-tag: ${{ steps.tagSetup.outputs.tag }}
@@ -42,7 +42,7 @@ jobs:
           name: helloWorld-jar
           path: target/*.jar
 
-  Build-And-Push-Docker-Image:
+  Push:
     if: ${{ inputs.push_image }} == true
     needs: Build-And-Push-Image
     runs-on: ubuntu-latest
