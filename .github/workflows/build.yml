@@ -1,12 +1,12 @@
 name: Build and push image
 run-name: Package and push image
 on:
-  - workflow_dispatch:
-      inputs:
-        push_image:
-          description: 'Push image to packages'
-          default: false
-          type: boolean
+  workflow_dispatch:
+    inputs:
+      push_image:
+        description: 'Push image to packages'
+        default: false
+        type: boolean
 
 jobs:
   Build-And-Push-Image:
