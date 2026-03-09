@@ -44,7 +44,7 @@ jobs:
 
   Push:
     if: ${{ inputs.push_image }} == true
-    needs: Build-And-Push-Image
+    needs: Build
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
