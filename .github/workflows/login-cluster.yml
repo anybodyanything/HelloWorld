@@ -1,0 +1,14 @@
+name: Login gcloud cluster
+run-name: Login gcloud cluster
+on:
+  workflow_run:
+    workflows: ["Package and push image"]
+
+Jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print string
+        run: |
+          echo "${{ github.event.test_sentence }}"
+

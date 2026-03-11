@@ -7,6 +7,10 @@ on:
         type: boolean
         default: false
         description: "Push image to repo?"
+      test_sentence:
+        type: string
+        description: "A string to test"
+        default: ""
 
 jobs:
   Build:
@@ -76,3 +80,12 @@ jobs:
       - name: Push Docker image
         run: |
           docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
+
+  Login gcloud cluster:
+    runs-on: ubuntu-latest
+    needs: Push
+    steps:
+      - name: Login gcloud cluster
+        uses: peter-evans/repository-dispatch@v4
+        with:
+          test_sentence: ${{ inputs.test_sentence }}
