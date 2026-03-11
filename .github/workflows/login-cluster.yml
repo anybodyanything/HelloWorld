@@ -1,7 +1,7 @@
 name: Login gcloud cluster
 run-name: Login gcloud cluster
 on:
-  workflow_run:
+  repository_dispatch:
     workflows: ["Package and push image"]
 
 Jobs:

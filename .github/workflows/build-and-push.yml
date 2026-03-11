@@ -7,10 +7,6 @@ on:
         type: boolean
         default: false
         description: "Push image to repo?"
-      test_sentence:
-        type: string
-        description: "A string to test"
-        default: ""
 
 jobs:
   Build:
@@ -37,53 +33,43 @@ jobs:
           name: helloWorld
           path: target/*.jar
 
-#  Push:
-#    runs-on: ubuntu-latest
-#    needs: Build
-#
-#    steps:
-#      - name: Check out repository code
-#        uses: actions/checkout@v5
-#
-#      - name: Set image tag
-#        id: tag_setup
-#        run: |
-#          branch=${GITHUB_REF##*/}
-#          if [branch = main]; then
-#            "tag=latest" >> $GITHUB_ENV
-#          else
-#            echo "tag=$branch" >> $GITHUB_ENV
-#          fi
-#
-#      - name: Login GitHub Container Registry
-#        uses: docker/login-action@v4
-#        with:
-#          registry: ghcr.io
-#          username: ${{ github.actor }}
-#          password: ${{ secrets.PACKAGES_TOKEN }}
-#
-#      - name: Download .jar
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: helloWorld
-#          path: target
-#
-#      - name: Build Docker image
-#        run: |
-#          docker build -t ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }} .
-#
-#      - name: Push Docker image
-#        run: |
-#          docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
-
-  Login-gcloud-cluster:
+  Push:
+    if: ${{ inputs.push_image }} = true
     runs-on: ubuntu-latest
     needs: Build
+
     steps:
-      - name: Login gcloud cluster
-        uses: peter-evans/repository-dispatch@v4
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
+      - name: Set image tag
+        id: tag_setup
+        run: |
+          branch=${GITHUB_REF##*/}
+          if [branch = main]; then
+            "tag=latest" >> $GITHUB_ENV
+          else
+            echo "tag=$branch" >> $GITHUB_ENV
+          fi
+
+      - name: Login GitHub Container Registry
+        uses: docker/login-action@v4
         with:
-          token: ${{ secrets.PACKAGES_TOKEN }}
-          repository: anybodyanything/HelloWorld
-          event-type: custom-event
-          client-payload: '{"test_sentence": ${{ inputs.test_sentence }}}'
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PACKAGES_TOKEN }}
+
+      - name: Download .jar
+        uses: actions/download-artifact@v4
+        with:
+          name: helloWorld
+          path: target
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }} .
+
+      - name: Push Docker image
+        run: |
+          docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
+
