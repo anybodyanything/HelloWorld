@@ -1,8 +1,10 @@
 name: Login gcloud cluster
 run-name: Login gcloud cluster
 on:
-  repository_dispatch:
+  workflow_run:
     workflows: ["Package and push image"]
+    types:
+      - completed
 
 Jobs:
   Test:
@@ -10,5 +12,5 @@ Jobs:
     steps:
       - name: Print string
         run: |
-          echo "${{ github.event.client-payload.test_sentence }}"
+          echo "Testing the stringing"
 
