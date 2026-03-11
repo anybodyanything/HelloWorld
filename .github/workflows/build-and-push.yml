@@ -1,5 +1,4 @@
 name: Package and push image
-run-name: Package and push image
 on:
   workflow_dispatch:
     inputs:
