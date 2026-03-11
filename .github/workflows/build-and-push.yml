@@ -37,49 +37,44 @@ jobs:
           name: helloWorld
           path: target/*.jar
 
-  Push:
-    runs-on: ubuntu-latest
-    needs: Build
-
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v5
-
-      - name: Set image tag
-        id: tag_setup
-        run: |
-          branch=${GITHUB_REF##*/}
-          if [branch = main]; then
-            "tag=latest" >> $GITHUB_ENV
-          else
-            echo "tag=$branch" >> $GITHUB_ENV
-          fi
-
-#      - name: Print tag
-#        id: print_tag
+#  Push:
+#    runs-on: ubuntu-latest
+#    needs: Build
+#
+#    steps:
+#      - name: Check out repository code
+#        uses: actions/checkout@v5
+#
+#      - name: Set image tag
+#        id: tag_setup
 #        run: |
-#          echo "Branch name: $tag"
-
-      - name: Login GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGES_TOKEN }}
-
-      - name: Download .jar
-        uses: actions/download-artifact@v4
-        with:
-          name: helloWorld
-          path: target
-
-      - name: Build Docker image
-        run: |
-          docker build -t ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }} .
-
-      - name: Push Docker image
-        run: |
-          docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
+#          branch=${GITHUB_REF##*/}
+#          if [branch = main]; then
+#            "tag=latest" >> $GITHUB_ENV
+#          else
+#            echo "tag=$branch" >> $GITHUB_ENV
+#          fi
+#
+#      - name: Login GitHub Container Registry
+#        uses: docker/login-action@v4
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.PACKAGES_TOKEN }}
+#
+#      - name: Download .jar
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: helloWorld
+#          path: target
+#
+#      - name: Build Docker image
+#        run: |
+#          docker build -t ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }} .
+#
+#      - name: Push Docker image
+#        run: |
+#          docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
 
   Login-gcloud-cluster:
     runs-on: ubuntu-latest
