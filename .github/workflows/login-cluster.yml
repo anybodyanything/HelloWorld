@@ -2,7 +2,8 @@ name: Login gcloud cluster
 run-name: Login gcloud cluster
 on:
   workflow_run:
-    workflows: ["Package and push image"]
+    workflows:
+      - "Package and push image"
     types:
       - completed
 
