@@ -10,5 +10,5 @@ Jobs:
     steps:
       - name: Print string
         run: |
-          echo "${{ github.event.test_sentence }}"
+          echo "${{ github.event.client-payload.test_sentence }}"
 
