@@ -67,5 +67,6 @@ jobs:
           docker build -t ghcr.io/${{ github.repository_owner }}/helloworld-${{ needs.Build-And-Push-Image.outputs.image-tag }} .
 
       - name: Push Docker Image
+        if: ${{ github.event.inputs.push_image == 'true' }}
         run: |
           docker push ghcr.io/${{ github.repository_owner }}/helloworld-${{ needs.Build-And-Push-Image.outputs.image-tag }}
