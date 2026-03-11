@@ -81,7 +81,7 @@ jobs:
         run: |
           docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
 
-  Login gcloud cluster:
+  Login-gcloud-cluster:
     runs-on: ubuntu-latest
     needs: Push
     steps:
