@@ -34,9 +34,12 @@ jobs:
           name: helloWorld
           path: target/*.jar
 
-      - name: Set environment variable
-        run: echo "MY_ENV_VAR=myValue" >> $GITHUB_ENV
-
-      - name: Use environment variable
+      - name: Set image tag
+        id: tag_setup
         run: |
-          echo "The value of MY_ENV_VAR is $MY_ENV_VAR"
+          branch=${GITHUB_REF##*/}
+          echo "tag=$branch" >> $GITHUB_ENV
+      - name: Print tag
+        id: print_tag
+        run: |
+          echo "Branch name: $tag"
