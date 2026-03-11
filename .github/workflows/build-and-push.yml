@@ -34,12 +34,38 @@ jobs:
           name: helloWorld
           path: target/*.jar
 
+  Push:
+    runs-on: ubuntu-latest
+    needs: Build
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+
       - name: Set image tag
         id: tag_setup
         run: |
           branch=${GITHUB_REF##*/}
           echo "tag=$branch" >> $GITHUB_ENV
-      - name: Print tag
-        id: print_tag
+
+#      - name: Print tag
+#        id: print_tag
+#        run: |
+#          echo "Branch name: $tag"
+
+      - name: Login GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.PACKAGES_TOKEN }}
+
+      - name: Download .jar
+        uses: actions/download-artifact@v4
+        with:
+          name: helloWorld
+          path: target
+
+      - name: Build Docker image
         run: |
-          echo "Branch name: $tag"
+          docker build -t ghcr.io/${{ github.repository_owner/helloworld-${{ env.tag }} }}
