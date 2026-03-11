@@ -78,7 +78,7 @@ jobs:
 
   Login-gcloud-cluster:
     runs-on: ubuntu-latest
-    needs: Push
+    needs: Build
     steps:
       - name: Login gcloud cluster
         uses: peter-evans/repository-dispatch@v4
