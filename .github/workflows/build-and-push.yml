@@ -1,7 +1,6 @@
 name: Package and push image
 run-name: Package and push image
 on:
-  push:
   workflow_dispatch:
     inputs:
       push_image:
@@ -47,9 +46,9 @@ jobs:
         run: |
           branch=${GITHUB_REF##*/}
           if [branch = main]; then
-            "tag=$latest" >> $GITHUB_ENV
+            "tag=latest" >> $GITHUB_ENV
           else
-            echo "tag=just_testing" >> $GITHUB_ENV
+            echo "tag=$branch" >> $GITHUB_ENV
           fi
 
 #      - name: Print tag
