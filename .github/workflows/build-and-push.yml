@@ -46,7 +46,11 @@ jobs:
         id: tag_setup
         run: |
           branch=${GITHUB_REF##*/}
-          echo "tag=$branch" >> $GITHUB_ENV
+          if [branch = main]; then
+            "tag=$latest" >> $GITHUB_ENV
+          else
+            echo "tag=just_testing" >> $GITHUB_ENV
+          fi
 
 #      - name: Print tag
 #        id: print_tag
