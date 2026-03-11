@@ -1,6 +1,7 @@
-name: Build and push image
+name: Package and push image
 run-name: Package and push image
 on:
+  push:
   workflow_dispatch:
     inputs:
       push_image:
