@@ -1,7 +1,6 @@
 name: Build and push image
 run-name: Package and push image
 on:
-  push:
   workflow_dispatch:
     inputs:
       push_image:
@@ -33,3 +32,9 @@ jobs:
         with:
           name: helloWorld
           path: target/*.jar
+
+      - name: Set image tag
+        id: tagSetup
+        run: |
+          branch=${GITHUB_REF##*/}
+          echo 'Branch name: $branch'
