@@ -83,4 +83,4 @@ jobs:
       - name: Login gcloud cluster
         uses: peter-evans/repository-dispatch@v4
         with:
-          client-payload: '{"test_sentence": ${{ inputs.test_sentence }}'
+          client-payload: '{"test_sentence": ${{ inputs.test_sentence }}}'
