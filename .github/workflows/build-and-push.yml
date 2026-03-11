@@ -37,4 +37,4 @@ jobs:
         id: tagSetup
         run: |
           branch=${GITHUB_REF##*/}
-          echo 'Branch name: $branch'
+          echo "Branch name: $branch"
