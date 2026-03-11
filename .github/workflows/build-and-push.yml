@@ -36,9 +36,9 @@ jobs:
 
       - name: Set image tag
         id: tag_setup
-        run: |
-          branch=${GITHUB_REF##*/}
-          echo "tag=$branch" >> GITHUB_ENV
+        run:
+          echo "tag=branch_name" >> GITHUB_ENV
+
       - name: Print tag
         id: print_tag
         run: |
