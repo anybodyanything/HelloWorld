@@ -28,10 +28,12 @@ jobs:
         run: |
           branch=${GITHUB_REF##*/}
           if [ "$branch" = "main" ]; then
-          echo "tag=latest" >> $GITHUB_OUTPUT
+          echo "tag=latest"
           else
-          echo "tag=$testing" >> $GITHUB_OUTPUT
+          echo "tag=$testing"
           fi
+          echo "tag=$tag" >> $GITHUB_OUTPUT
+          echo "Image tag set to: $tag"
 
       - name: Build with Maven
         run: |
