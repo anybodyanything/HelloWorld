@@ -79,5 +79,6 @@ jobs:
   Deploy:
     if: ${{ inputs.deploy == true}}
     needs: Push
+    runs-on: ubuntu-latest
     uses: ./.github/workflows/login-cluster.yml
 
