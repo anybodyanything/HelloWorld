@@ -84,12 +84,12 @@ jobs:
     if: ${{ inputs.deploy == true }}
     runs-on: ubuntu-latest
     ## needs: Push
-    permissions:
-      contents: 'read'
-      id-token: 'write'
 
     steps:
       - uses: actions/checkout@v4
+        permissions:
+          contents: 'read'
+          id-token: 'write'
 
       - name: Authenticate in gcloud via OIDC
         uses: google-github-actions/auth@v3
