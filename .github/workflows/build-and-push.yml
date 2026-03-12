@@ -96,5 +96,6 @@ jobs:
         with:
           project_id: 'steel-totality-328221'
           workload_identity_provider: "projects/75238950751/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
-          service_account: "gh-actions-oidc@75238950751.iam.gserviceaccount.com"
+          service_account: "gh-actions-oidc@steel-totality-328221.iam.gserviceaccount.com"
+
 
