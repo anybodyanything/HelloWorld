@@ -74,11 +74,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }} .
+          docker build -t ghcr.io/${{ github.repository_owner}}/helloworld-${{ steps.tag_setup.outputs.tag }} .
 
       - name: Push Docker image
         run: |
-          docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
+          docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ steps.tag_setup.outputs.tag }}
 
   Deploy:
     if: ${{ inputs.deploy == true }}
