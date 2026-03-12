@@ -98,10 +98,10 @@ Deploy:
         workload_identity_provider: "projects/75238950751/locations/global/workloadIdentityPools/github-pool-v2/providers/github-provider"
         service_account: "gh-actions-oidc@steel-totality-328221.iam.gserviceaccount.com"
 
-    - name: Decode OIDC token for debugging
-      run: |
-        echo "${{ steps.auth.outputs.id_token }}" | cut -d '.' -f2 | base64 --decode | jq .
-      shell: bash
+#    - name: Decode OIDC token for debugging
+#      run: |
+#        echo "${{ steps.auth.outputs.id_token }}" | cut -d '.' -f2 | base64 --decode | jq .
+#      shell: bash
 
 
 
