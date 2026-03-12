@@ -13,29 +13,29 @@ on:
         description: "Deploy to k8s?"
 
 jobs:
-  Build:
-    runs-on: ubuntu-latest
-    outputs:
-      tag: ${{ steps.tagSetup.outputs.tag }}
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v5
-
-      - name: Set up Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Build with Maven
-        run: |
-          mvn clean package
-
-      - name: Upload JAR
-        uses: actions/upload-artifact@v4
-        with:
-          name: helloWorld
-          path: target/*.jar
+#  Build:
+#    runs-on: ubuntu-latest
+#    outputs:
+#      tag: ${{ steps.tagSetup.outputs.tag }}
+#    steps:
+#      - name: Check out repository code
+#        uses: actions/checkout@v5
+#
+#      - name: Set up Java
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'temurin'
+#          java-version: '17'
+#
+#      - name: Build with Maven
+#        run: |
+#          mvn clean package
+#
+#      - name: Upload JAR
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: helloWorld
+#          path: target/*.jar
 
   Push:
     if: ${{ inputs.push_image == true}}
