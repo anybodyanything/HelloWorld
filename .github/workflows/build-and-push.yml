@@ -1,4 +1,5 @@
 name: Package and push image
+run-name: Build, push - ${{ inputs.push_image }}, deploy - ${{ inputs.deploy }}
 on:
   workflow_dispatch:
     inputs:
