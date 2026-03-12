@@ -49,10 +49,11 @@ jobs:
         id: tag_setup
         run: |
           branch=${GITHUB_REF##*/}
+          short_sha=${GITHUB_SHA::5}
           if [branch = main]; then
-            "tag=latest" >> $GITHUB_ENV
+            "tag=latest-${short_sha}" >> $GITHUB_ENV
           else
-            echo "tag=$branch" >> $GITHUB_ENV
+            echo "tag=$branch-${short_sha}" >> $GITHUB_ENV
           fi
 
       - name: Login GitHub Container Registry
