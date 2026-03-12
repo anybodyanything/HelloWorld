@@ -79,5 +79,5 @@ jobs:
   Deploy:
     if: ${{ inputs.deploy == true}}
     needs: Push
-    uses: .github/workflows/login-cluster.yml
+    uses: .github/workflows/login-cluster.yml@feature/login_gcloud_cluster
 
