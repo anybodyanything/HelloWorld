@@ -77,8 +77,11 @@ jobs:
           docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
 
   Deploy:
-    if: ${{ inputs.deploy == true}}
-    needs: Push
+    if: ${{ inputs.deploy == 'true' }}
     runs-on: ubuntu-latest
-    uses: ./.github/workflows/login-cluster.yml
+    needs: [Build, Push]
+    steps:
+      - name: Deploy to Kubernetes
+        run: |
+          echo "Deploying image tag ${{ needs.Build.outputs.tag }}"
 
