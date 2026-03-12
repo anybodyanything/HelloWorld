@@ -52,7 +52,7 @@ jobs:
           branch=${GITHUB_REF##*/}
           short_sha=${GITHUB_SHA::5}
           if [branch = main]; then
-            "tag=latest-${short_sha}" >> $GITHUB_ENV
+            "tag=latest" >> $GITHUB_ENV
           else
             echo "tag=$branch-${short_sha}" >> $GITHUB_ENV
           fi
