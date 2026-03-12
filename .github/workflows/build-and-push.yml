@@ -80,22 +80,28 @@ jobs:
 #        run: |
 #          docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ steps.tag_setup.outputs.tag }}
 
-  Deploy:
-    if: ${{ inputs.deploy == true }}
-    runs-on: ubuntu-latest
-    ## needs: Push
-    permissions:
-      contents: 'read'
-      id-token: 'write'
+Deploy:
+  if: ${{ inputs.deploy == true }}
+  runs-on: ubuntu-latest
+  permissions:
+    contents: 'read'
+    id-token: 'write'
 
-    steps:
-      - uses: actions/checkout@v4
+  steps:
+    - uses: actions/checkout@v4
 
-      - name: Authenticate in gcloud via OIDC
-        uses: google-github-actions/auth@v3
-        with:
-          project_id: 'steel-totality-328221'
-          workload_identity_provider: "projects/75238950751/locations/global/workloadIdentityPools/github-pool-v2/providers/github-provider"
-          service_account: "gh-actions-oidc@steel-totality-328221.iam.gserviceaccount.com"
+    - name: Authenticate in gcloud via OIDC
+      id: auth
+      uses: google-github-actions/auth@v3
+      with:
+        project_id: 'steel-totality-328221'
+        workload_identity_provider: "projects/75238950751/locations/global/workloadIdentityPools/github-pool-v2/providers/github-provider"
+        service_account: "gh-actions-oidc@steel-totality-328221.iam.gserviceaccount.com"
+
+    - name: Decode OIDC token for debugging
+      run: |
+        echo "${{ steps.auth.outputs.id_token }}" | cut -d '.' -f2 | base64 --decode | jq .
+      shell: bash
+
 
 
