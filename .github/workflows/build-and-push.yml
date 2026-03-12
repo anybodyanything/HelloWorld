@@ -6,6 +6,10 @@ on:
         type: boolean
         default: false
         description: "Push image to repo?"
+      deploy:
+        type: boolean
+        default: false
+        description: "Deploy to k8s?"
 
 jobs:
   Build:
@@ -71,4 +75,9 @@ jobs:
       - name: Push Docker image
         run: |
           docker image push ghcr.io/${{ github.repository_owner}}/helloworld-${{ env.tag }}
+
+  Deploy:
+    if: ${{ ${{ inputs.deploy == true}} }}
+    needs: Push
+    uses: .github/workflows/login-cluster.yml
 

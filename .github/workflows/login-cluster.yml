@@ -1,10 +1,6 @@
 name: Login gcloud cluster
 on:
-  workflow_run:
-    workflows:
-      - "Package and push image"
-    types:
-      - completed
+  workflow_dispatch:
 
 jobs:
   Test:
