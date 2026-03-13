@@ -2,11 +2,6 @@ name: Debug OIDC and GCP Auth
 
 on:
   workflow_dispatch:
-    inputs:
-      deploy:
-        type: boolean
-        default: false
-        description: "Run deploy job?"
 
 jobs:
   debug-oidc-token:
@@ -35,8 +30,6 @@ jobs:
         shell: bash
 
   deploy:
-    if: ${{ inputs.deploy == 'true' }}
-    needs: debug-oidc-token
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -53,6 +46,7 @@ jobs:
           project_id: 'steel-totality-328221'
           workload_identity_provider: "projects/75238950751/locations/global/workloadIdentityPools/github-pool-v2/providers/github-provider"
           service_account: "gh-actions-oidc@steel-totality-328221.iam.gserviceaccount.com"
+          audience: "sts.googleapis.com"
 
       - name: Confirm authentication
         run: |
