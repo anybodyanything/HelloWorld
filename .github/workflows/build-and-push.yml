@@ -99,7 +99,3 @@ jobs:
           service_account: "gh-actions-oidc@steel-totality-328221.iam.gserviceaccount.com"
 
 
-      - name: Decode token
-          run: |
-            echo "${{ steps.auth.outputs.id_token }}" | cut -d '.' -f2 | base64 --decode | jq .
-          shell: bash
