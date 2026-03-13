@@ -92,10 +92,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Authenticate in gcloud via OIDC
+        id: auth
         uses: google-github-actions/auth@v3
         with:
           project_id: 'steel-totality-328221'
           workload_identity_provider: "projects/75238950751/locations/global/workloadIdentityPools/github-pool-v2/providers/github-provider"
           service_account: "gh-actions-oidc@steel-totality-328221.iam.gserviceaccount.com"
+
+      - name: Debug OICD
+        run: |
+          echo ${{ steps.auth.outputs.id_token }} | cut -d '.' -f2 | base64 --decode |jq .
 
 
